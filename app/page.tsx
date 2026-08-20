@@ -206,7 +206,7 @@ export default function Home() {
         <div className="brand-mark" aria-hidden="true">C</div>
         <strong>Codex</strong>
         <span className="app-divider" />
-        <span className="project-name">from-to-chat</span>
+        <span className="project-name">plor</span>
         <span className="branch-pill"><span aria-hidden="true">⌁</span> main</span>
       </header>
 
