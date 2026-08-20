@@ -28,11 +28,12 @@ test("server-renders the coding agent workspace", async () => {
   assert.match(response.headers.get("content-type") ?? "", /^text\/html\b/i);
 
   const html = await response.text();
-  assert.match(html, /<title>Codex Workspace<\/title>/i);
+  assert.match(html, /<title>From-to Workspace<\/title>/i);
   assert.match(html, /aria-label="Coding agent task"/);
   assert.match(html, /aria-label="Agent conversation"/);
   assert.match(html, /Refine project settings/);
   assert.match(html, /Overview/);
+  assert.match(html, /Draw operation/);
 });
 
 test("server-renders chat navigation and the initial conversation", async () => {

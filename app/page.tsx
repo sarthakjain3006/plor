@@ -28,6 +28,7 @@ import {
 } from "./conversation-model";
 
 const ConversationOverview = lazy(() => import("./conversation-overview"));
+const OperationCanvas = lazy(() => import("./operation-canvas"));
 let nextEntityId = Date.now();
 const createEntityId = () => ++nextEntityId;
 
@@ -39,6 +40,7 @@ export default function Home() {
   const [side, setSide] = useState<Side>("from");
   const [draft, setDraft] = useState("");
   const [showOverview, setShowOverview] = useState(false);
+  const [showOperationCanvas, setShowOperationCanvas] = useState(false);
   const [showSidebar, setShowSidebar] = useState(false);
   const [transitioningMessage, setTransitioningMessage] = useState<number | null>(null);
   const messagesRef = useRef<HTMLDivElement>(null);
@@ -67,6 +69,12 @@ export default function Home() {
   const visibleMessages = currentLayer.messageIds
     .map((messageId) => messagesById[messageId])
     .filter((message): message is Message => Boolean(message));
+  const operationContext = [
+    `Node objective: ${currentChat.title}.`,
+    ...visibleMessages.slice(-5).map((message) =>
+      `${message.side === "from" ? "Human" : "Agent"}: ${message.text}`
+    ),
+  ].join(" ");
   const depth = layerPath.length - 1;
   const fanWidth = Math.min(depth * 2.2, 10);
   const fanLeft = fanWidth * .12;
@@ -272,6 +280,10 @@ export default function Home() {
                 </div>
                 <div className="task-actions">
                   {depth > 0 && <span className="depth-label">{depth} {depth === 1 ? "layer" : "layers"} deep</span>}
+                  <button className="drawing-button" onClick={() => setShowOperationCanvas(true)} type="button">
+                    <span aria-hidden="true">⌁</span>
+                    Draw operation
+                  </button>
                   <button className="overview-button" onClick={() => setShowOverview(true)} type="button">
                     <span className="overview-glyph" aria-hidden="true"><i /><i /><i /></span>
                     Overview
@@ -357,6 +369,15 @@ export default function Home() {
             messagesById={messagesById}
             onClose={closeOverview}
             onNavigate={navigateToLayer}
+          />
+        </Suspense>
+      )}
+      {showOperationCanvas && (
+        <Suspense fallback={<div className="overview-loading" role="status">Loading operation drawing...</div>}>
+          <OperationCanvas
+            context={operationContext}
+            operationKey={`chat-${currentChat.id}-layer-${currentLayer.id}`}
+            onClose={() => setShowOperationCanvas(false)}
           />
         </Suspense>
       )}

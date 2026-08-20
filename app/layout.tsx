@@ -13,8 +13,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Codex Workspace",
-  description: "A focused workspace for collaborating with a coding agent.",
+  title: "From-to Workspace",
+  description: "A graph workspace for human and agent collaboration.",
   icons: {
     icon: "/favicon.svg",
     shortcut: "/favicon.svg",
