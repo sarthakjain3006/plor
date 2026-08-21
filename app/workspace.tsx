@@ -203,7 +203,18 @@ export default function Workspace() {
           onClick={() => setShowSidebar(true)}
           type="button"
         >☰</button>
-        <div className="brand-mark" aria-hidden="true">C</div>
+        <div className="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none">
+            <g stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+              <path d="M8.5 5.5v11" />
+              <path d="M8.5 5.5a5 5 0 0 1 0 10" />
+            </g>
+            <g fill="currentColor">
+              <path d="M8.5 20.6 6.6 16.9h3.8z" />
+              <path d="M4.9 15.5 8.5 13.4v4.2z" />
+            </g>
+          </svg>
+        </div>
         <strong>Codex</strong>
         <span className="app-divider" />
         <span className="project-name">plor</span>
