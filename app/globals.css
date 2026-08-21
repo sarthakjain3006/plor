@@ -130,18 +130,29 @@ button { -webkit-tap-highlight-color: transparent; }
   animation: enter-fade 0.28s ease forwards;
 }
 .gate.leaving {
-  animation: gate-dissolve 0.55s ease-out forwards;
+  animation: gate-dissolve 0.4s ease-in forwards;
   pointer-events: none;
 }
 .workspace-reveal {
-  animation: workspace-reveal 0.55s ease-out both;
+  animation: workspace-aperture 0.9s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 @keyframes gate-dissolve {
   to { opacity: 0; }
 }
-@keyframes workspace-reveal {
-  from { opacity: 0; transform: scale(0.985); }
-  to { opacity: 1; transform: scale(1); }
+@keyframes workspace-aperture {
+  from {
+    clip-path: circle(0% at 50% 46%);
+    opacity: 0.55;
+    transform: scale(1.02);
+    filter: blur(10px);
+  }
+  60% { opacity: 1; }
+  to {
+    clip-path: circle(120% at 50% 46%);
+    opacity: 1;
+    transform: scale(1);
+    filter: blur(0);
+  }
 }
 @keyframes portal-breathe {
   0%, 100% { transform: translateY(0) scale(1); }
