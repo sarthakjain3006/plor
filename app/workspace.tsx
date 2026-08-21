@@ -204,14 +204,17 @@ export default function Workspace() {
           type="button"
         >☰</button>
         <div className="brand-mark" aria-hidden="true">
-          <svg viewBox="0 0 24 24" fill="none">
-            <g stroke="currentColor" strokeWidth="2" strokeLinecap="round">
-              <path d="M8.5 5.5v11" />
-              <path d="M8.5 5.5a5 5 0 0 1 0 10" />
+          <svg viewBox="0 0 200 170" fill="none">
+            <g stroke="currentColor" strokeWidth="9" strokeLinecap="round">
+              <path d="M76 16v140" />
+              <path d="M105.5 18A48 48 0 1 1 93 8" />
+              <path d="M81 93 181 143.5" />
+              <path d="M181 143.5C150 157 112 159 78 156" />
             </g>
             <g fill="currentColor">
-              <path d="M8.5 20.6 6.6 16.9h3.8z" />
-              <path d="M4.9 15.5 8.5 13.4v4.2z" />
+              <path d="M76 6 71.2 16h9.6z" />
+              <path d="M98.5 11 90.5 12.6 94 4.5z" />
+              <path d="M187 146 177.5 148.5 183.5 136z" />
             </g>
           </svg>
         </div>

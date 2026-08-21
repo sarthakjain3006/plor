@@ -131,21 +131,18 @@ export default function Home() {
           <span aria-hidden="true">→</span>
         </button>
         <span className="wordmark" aria-hidden="true">
-          <svg viewBox="0 0 214 96" fill="none">
+          <svg viewBox="0 0 200 170" fill="none">
             <g stroke="currentColor" strokeWidth="7" strokeLinecap="round">
-              <path d="M14 18v63" />
-              <path d="M14 18a24 24 0 0 1 0 48" />
-              <path d="M74 66V13" />
-              <path d="M151.6 37.8A24 24 0 1 1 132.2 18.4" />
-              <path d="M184 18v48" />
-              <path d="M184 40l15-15" />
+              <path d="M76 13v145" />
+              <path d="M106.9 15.2A48 48 0 1 1 92.4 6.9" />
+              <path d="M80 92 183 144" />
+              <path d="M183 144C150 158 110 160 76 157" />
             </g>
             <g fill="currentColor">
-              <path d="M14 89 9.5 80h9z" />
-              <path d="M8 66 14 61.5v9z" />
-              <path d="M74 5 69.5 14h9z" />
-              <path d="M139.1 19.6 131.4 22.8 133 14z" />
-              <path d="M204 20 202.2 28.2 195.8 21.8z" />
+              <path d="M76 4 71.5 13h9z" />
+              <path d="M99 9.3 90.9 11.1 93.9 2.7z" />
+              <path d="M189.3 147.2 179.8 150.3 186.2 137.7z" />
+              <path d="M69 157 76 152.7v8.6z" />
             </g>
           </svg>
         </span>

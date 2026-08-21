@@ -1,11 +1,14 @@
-<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <rect width="24" height="24" rx="5.5" fill="#000"/>
-  <g stroke="#fff" stroke-width="2" stroke-linecap="round">
-    <path d="M8.5 5.5v11"/>
-    <path d="M8.5 5.5a5 5 0 0 1 0 10"/>
+<svg width="24" height="24" viewBox="0 0 200 170" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="200" height="170" rx="42" fill="#000"/>
+  <g stroke="#fff" stroke-width="11" stroke-linecap="round">
+    <path d="M76 22v133"/>
+    <path d="M104.5 21.5A48 48 0 1 1 94.5 9.4"/>
+    <path d="M82 94 178 143"/>
+    <path d="M178 143C148 156 112 158 80 155"/>
   </g>
   <g fill="#fff">
-    <path d="M8.5 20.6 6.6 16.9h3.8z"/>
-    <path d="M4.9 15.5 8.5 13.4v4.2z"/>
+    <path d="M76 12 71 22h10z"/>
+    <path d="M99 13.5 91 15 94.5 7z"/>
+    <path d="M184 146.5 174.5 149 180.5 136.5z"/>
   </g>
 </svg>
