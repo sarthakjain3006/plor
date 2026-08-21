@@ -330,6 +330,7 @@ export default function Workspace() {
                   <input
                     aria-label={`Message from ${side === "from" ? "you" : "Codex"}`}
                     autoComplete="off"
+                    data-chat-input
                     onChange={(event) => setDraft(event.target.value)}
                     placeholder="Ask Codex to change your code"
                     value={draft}

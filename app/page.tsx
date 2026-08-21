@@ -2,9 +2,13 @@
 
 import {
   useCallback,
+  useEffect,
   useState,
+  useSyncExternalStore,
   type AnimationEvent,
   type CSSProperties,
+  type KeyboardEvent,
+  type MouseEvent,
 } from "react";
 import Workspace from "./workspace";
 
@@ -22,9 +26,21 @@ function computeEnterScale() {
   return Math.ceil((Math.hypot(width, height) / portalSize) * 1.05);
 }
 
+function greeting() {
+  const hour = new Date().getHours();
+  if (hour < 5) return "Hello";
+  if (hour < 12) return "Good morning";
+  if (hour < 18) return "Good afternoon";
+  return "Good evening";
+}
+
+const subscribeNoop = () => () => {};
+
 export default function Home() {
   const [phase, setPhase] = useState<Phase>("gate");
   const [enterScale, setEnterScale] = useState(1);
+  // Server HTML always says "Hello"; the client swaps in a time-of-day greeting.
+  const message = useSyncExternalStore(subscribeNoop, greeting, () => "Hello");
 
   const enter = useCallback(() => {
     if (phase !== "gate") return;
@@ -35,6 +51,25 @@ export default function Home() {
     setEnterScale(computeEnterScale());
     setPhase("entering");
   }, [phase]);
+
+  const handleKeyDown = useCallback(
+    (event: KeyboardEvent<HTMLElement>) => {
+      if (event.key === "Enter") enter();
+    },
+    [enter]
+  );
+
+  const handleMouseMove = useCallback(
+    (event: MouseEvent<HTMLElement>) => {
+      if (phase !== "gate") return;
+      const rect = event.currentTarget.getBoundingClientRect();
+      const x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
+      const y = ((event.clientY - rect.top) / rect.height) * 2 - 1;
+      event.currentTarget.style.setProperty("--mx", x.toFixed(3));
+      event.currentTarget.style.setProperty("--my", y.toFixed(3));
+    },
+    [phase]
+  );
 
   const handlePortalAnimationEnd = useCallback(
     (event: AnimationEvent<HTMLDivElement>) => {
@@ -49,6 +84,12 @@ export default function Home() {
     },
     []
   );
+
+  // Hand focus to the chat input once inside.
+  useEffect(() => {
+    if (phase !== "done") return;
+    document.querySelector<HTMLInputElement>("[data-chat-input]")?.focus();
+  }, [phase]);
 
   if (phase === "done") {
     return <Workspace />;
@@ -65,15 +106,21 @@ export default function Home() {
         className={`gate ${phase !== "gate" ? "entering" : ""} ${
           phase === "inside" ? "leaving" : ""
         }`}
+        onClick={enter}
+        onKeyDown={handleKeyDown}
+        onMouseMove={handleMouseMove}
         onAnimationEnd={handleGateAnimationEnd}
       >
-        <div
-          className="portal"
-          aria-hidden="true"
-          style={{ "--enter-scale": enterScale } as CSSProperties}
-          onAnimationEnd={handlePortalAnimationEnd}
-        >
-          <h1 className="hello">Hello</h1>
+        <h1 className="sr-only">plor</h1>
+        <div className="portal-tilt">
+          <div
+            className="portal"
+            aria-hidden="true"
+            style={{ "--enter-scale": enterScale } as CSSProperties}
+            onAnimationEnd={handlePortalAnimationEnd}
+          >
+            <p className="hello">{message}</p>
+          </div>
         </div>
         <button
           className="enter-button"
@@ -83,6 +130,7 @@ export default function Home() {
         >
           <span aria-hidden="true">→</span>
         </button>
+        <span className="wordmark" aria-hidden="true">plor</span>
       </main>
     </>
   );

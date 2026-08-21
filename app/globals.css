@@ -26,9 +26,19 @@ button { -webkit-tap-highlight-color: transparent; }
   justify-items: center;
   gap: 48px;
   overflow: hidden;
-  background: #000;
+  background: radial-gradient(120% 90% at 50% 40%, #0b0b0b 0%, #000 68%);
+  cursor: pointer;
+}
+.portal-tilt {
+  transform: translate(calc(var(--mx, 0) * 9px), calc(var(--my, 0) * 7px));
+  transition: transform 0.25s ease-out;
+  will-change: transform;
+}
+@media (prefers-reduced-motion: reduce) {
+  .portal-tilt { transform: none; transition: none; }
 }
 .portal {
+  position: relative;
   width: min(72vmin, 440px);
   aspect-ratio: 1;
   display: grid;
@@ -43,9 +53,27 @@ button { -webkit-tap-highlight-color: transparent; }
     inset 0 18px 36px rgba(255, 255, 255, 0.85),
     inset 0 -28px 48px rgba(0, 0, 0, 0.08);
   animation: portal-breathe 7s ease-in-out infinite;
-  will-change: transform, box-shadow;
+  will-change: transform;
+}
+.portal::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.14),
+    0 40px 96px rgba(0, 0, 0, 0.42),
+    0 12px 36px rgba(255, 255, 255, 0.1),
+    0 0 150px rgba(255, 255, 255, 0.18),
+    inset 0 18px 36px rgba(255, 255, 255, 0.9),
+    inset 0 -28px 48px rgba(0, 0, 0, 0.06);
+  opacity: 0;
+  animation: portal-glow 7s ease-in-out infinite;
+  pointer-events: none;
 }
 .hello {
+  position: relative;
+  z-index: 1;
   margin: 0;
   color: #000;
   font-family: var(--font-hello), "Times New Roman", serif;
@@ -78,6 +106,16 @@ button { -webkit-tap-highlight-color: transparent; }
   outline: 2px solid #fff;
   outline-offset: 4px;
 }
+.wordmark {
+  position: absolute;
+  top: 22px;
+  left: 26px;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  color: rgba(241, 241, 238, 0.38);
+  user-select: none;
+}
 .gate.entering .portal {
   animation: enter-portal 1.05s cubic-bezier(0.22, 0.8, 0.18, 1) forwards;
 }
@@ -87,6 +125,9 @@ button { -webkit-tap-highlight-color: transparent; }
 .gate.entering .enter-button {
   animation: enter-fade 0.2s ease forwards;
   pointer-events: none;
+}
+.gate.entering .wordmark {
+  animation: enter-fade 0.28s ease forwards;
 }
 .gate.leaving {
   animation: gate-dissolve 0.55s ease-out forwards;
@@ -103,26 +144,12 @@ button { -webkit-tap-highlight-color: transparent; }
   to { opacity: 1; transform: scale(1); }
 }
 @keyframes portal-breathe {
-  0%, 100% {
-    transform: translateY(0) scale(1);
-    box-shadow:
-      0 0 0 1px rgba(255, 255, 255, 0.08),
-      0 28px 80px rgba(0, 0, 0, 0.55),
-      0 8px 24px rgba(255, 255, 255, 0.06),
-      0 0 120px rgba(255, 255, 255, 0.12),
-      inset 0 18px 36px rgba(255, 255, 255, 0.85),
-      inset 0 -28px 48px rgba(0, 0, 0, 0.08);
-  }
-  50% {
-    transform: translateY(-10px) scale(1.015);
-    box-shadow:
-      0 0 0 1px rgba(255, 255, 255, 0.14),
-      0 40px 96px rgba(0, 0, 0, 0.42),
-      0 12px 36px rgba(255, 255, 255, 0.1),
-      0 0 150px rgba(255, 255, 255, 0.18),
-      inset 0 18px 36px rgba(255, 255, 255, 0.9),
-      inset 0 -28px 48px rgba(0, 0, 0, 0.06);
-  }
+  0%, 100% { transform: translateY(0) scale(1); }
+  50% { transform: translateY(-10px) scale(1.015); }
+}
+@keyframes portal-glow {
+  0%, 100% { opacity: 0; }
+  50% { opacity: 1; }
 }
 @keyframes enter-portal {
   0% { transform: scale(1); }
