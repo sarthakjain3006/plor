@@ -1,7 +1,8 @@
 @import "tailwindcss";
 
 :root {
-  --bg: #151615;
+  --bg: #000;
+  --workspace-bg: #151615;
   --surface-raised: #242524;
   --surface-hover: #292a29;
   --line: #343633;
@@ -16,7 +17,122 @@ body { margin: 0; overflow: hidden; background: var(--bg); color: var(--ink); fo
 button, input { font: inherit; }
 button { -webkit-tap-highlight-color: transparent; }
 
-.app-shell { height: 100svh; display: grid; grid-template-rows: 50px minmax(0, 1fr); overflow: hidden; background: var(--bg); }
+.gate {
+  position: fixed;
+  inset: 0;
+  z-index: 10;
+  display: grid;
+  place-content: center;
+  justify-items: center;
+  gap: 48px;
+  overflow: hidden;
+  background: #000;
+}
+.portal {
+  width: min(72vmin, 440px);
+  aspect-ratio: 1;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.08),
+    0 28px 80px rgba(0, 0, 0, 0.55),
+    0 8px 24px rgba(255, 255, 255, 0.06),
+    0 0 120px rgba(255, 255, 255, 0.12),
+    inset 0 18px 36px rgba(255, 255, 255, 0.85),
+    inset 0 -28px 48px rgba(0, 0, 0, 0.08);
+  animation: portal-breathe 7s ease-in-out infinite;
+  will-change: transform, box-shadow;
+}
+.hello {
+  margin: 0;
+  color: #000;
+  font-family: var(--font-hello), "Times New Roman", serif;
+  font-size: clamp(3.4rem, 11vmin, 6.2rem);
+  font-weight: 400;
+  letter-spacing: -0.05em;
+  line-height: 1;
+}
+.enter-button {
+  width: 52px;
+  height: 52px;
+  display: grid;
+  place-items: center;
+  border: 1px solid #fff;
+  border-radius: 50%;
+  background: #000;
+  color: #fff;
+  cursor: pointer;
+  font-size: 20px;
+  line-height: 1;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
+  transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease;
+}
+.enter-button:hover {
+  background: #fff;
+  color: #000;
+  transform: translateY(-2px);
+}
+.enter-button:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 4px;
+}
+.gate.entering .portal {
+  animation: enter-portal 1.05s cubic-bezier(0.22, 0.8, 0.18, 1) forwards;
+}
+.gate.entering .hello {
+  animation: enter-fade 0.28s ease forwards;
+}
+.gate.entering .enter-button {
+  animation: enter-fade 0.2s ease forwards;
+  pointer-events: none;
+}
+.gate.leaving {
+  animation: gate-dissolve 0.55s ease-out forwards;
+  pointer-events: none;
+}
+.workspace-reveal {
+  animation: workspace-reveal 0.55s ease-out both;
+}
+@keyframes gate-dissolve {
+  to { opacity: 0; }
+}
+@keyframes workspace-reveal {
+  from { opacity: 0; transform: scale(0.985); }
+  to { opacity: 1; transform: scale(1); }
+}
+@keyframes portal-breathe {
+  0%, 100% {
+    transform: translateY(0) scale(1);
+    box-shadow:
+      0 0 0 1px rgba(255, 255, 255, 0.08),
+      0 28px 80px rgba(0, 0, 0, 0.55),
+      0 8px 24px rgba(255, 255, 255, 0.06),
+      0 0 120px rgba(255, 255, 255, 0.12),
+      inset 0 18px 36px rgba(255, 255, 255, 0.85),
+      inset 0 -28px 48px rgba(0, 0, 0, 0.08);
+  }
+  50% {
+    transform: translateY(-10px) scale(1.015);
+    box-shadow:
+      0 0 0 1px rgba(255, 255, 255, 0.14),
+      0 40px 96px rgba(0, 0, 0, 0.42),
+      0 12px 36px rgba(255, 255, 255, 0.1),
+      0 0 150px rgba(255, 255, 255, 0.18),
+      inset 0 18px 36px rgba(255, 255, 255, 0.9),
+      inset 0 -28px 48px rgba(0, 0, 0, 0.06);
+  }
+}
+@keyframes enter-portal {
+  0% { transform: scale(1); }
+  100% { transform: scale(var(--enter-scale, 18)); }
+}
+@keyframes enter-fade {
+  to { opacity: 0; }
+}
+
+.app-shell { height: 100svh; display: grid; grid-template-rows: 50px minmax(0, 1fr); overflow: hidden; background: var(--workspace-bg); }
 .app-bar { position: relative; z-index: 20; display: flex; align-items: center; gap: 10px; padding: 0 16px; border-bottom: 1px solid #2d2e2c; background: #181918; font-size: 13px; }
 .brand-mark { width: 27px; height: 27px; display: grid; place-items: center; border: 1px solid #464844; border-radius: 6px; background: #292a28; color: #fff; font: 700 13px/1 Georgia, serif; box-shadow: inset 0 1px rgba(255,255,255,.05); }
 .app-bar > strong { font-size: 13px; font-weight: 650; }
