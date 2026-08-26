@@ -4,7 +4,6 @@ import {
   useCallback,
   useEffect,
   useState,
-  useSyncExternalStore,
   type AnimationEvent,
   type CSSProperties,
   type KeyboardEvent,
@@ -26,21 +25,9 @@ function computeEnterScale() {
   return Math.ceil((Math.hypot(width, height) / portalSize) * 1.05);
 }
 
-function greeting() {
-  const hour = new Date().getHours();
-  if (hour < 5) return "Hello";
-  if (hour < 12) return "Good morning";
-  if (hour < 18) return "Good afternoon";
-  return "Good evening";
-}
-
-const subscribeNoop = () => () => {};
-
 export default function Home() {
   const [phase, setPhase] = useState<Phase>("gate");
   const [enterScale, setEnterScale] = useState(1);
-  // Server HTML always says "Hello"; the client swaps in a time-of-day greeting.
-  const message = useSyncExternalStore(subscribeNoop, greeting, () => "Hello");
 
   const enter = useCallback(() => {
     if (phase !== "gate") return;
@@ -112,24 +99,42 @@ export default function Home() {
         onAnimationEnd={handleGateAnimationEnd}
       >
         <h1 className="sr-only">plor</h1>
-        <div className="portal-tilt">
-          <div
-            className="portal"
-            aria-hidden="true"
-            style={{ "--enter-scale": enterScale } as CSSProperties}
-            onAnimationEnd={handlePortalAnimationEnd}
-          >
-            <p className="hello">{message}</p>
-          </div>
+        <div className="lockup" aria-hidden="true">
+          <svg className="lockup-mark" viewBox="92 30 148 122" fill="none">
+            <defs>
+              <linearGradient id="lk1" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stopColor="#ffffff"/><stop offset="1" stopColor="#b5b5b5"/></linearGradient>
+              <linearGradient id="lk2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stopColor="#eaeaea"/><stop offset="1" stopColor="#a2a2a2"/></linearGradient>
+              <linearGradient id="lk3" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stopColor="#d2d2d2"/><stop offset="1" stopColor="#8b8b8b"/></linearGradient>
+              <linearGradient id="lk4" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stopColor="#b5b5b5"/><stop offset="1" stopColor="#737373"/></linearGradient>
+              <linearGradient id="lk5" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stopColor="#969696"/><stop offset="1" stopColor="#5c5c5c"/></linearGradient>
+              <linearGradient id="lk6" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stopColor="#7a7a7a"/><stop offset="1" stopColor="#454545"/></linearGradient>
+            </defs>
+            <ellipse cx="192" cy="52"  rx="44" ry="15"   fill="url(#lk1)" transform="rotate(-15 192 52)"/>
+            <ellipse cx="176" cy="72"  rx="39" ry="13.5" fill="url(#lk2)" transform="rotate(-14 176 72)"/>
+            <ellipse cx="160" cy="90"  rx="34" ry="12"   fill="url(#lk3)" transform="rotate(-13 160 90)"/>
+            <ellipse cx="145" cy="107" rx="29" ry="10.5" fill="url(#lk4)" transform="rotate(-12 145 107)"/>
+            <ellipse cx="131" cy="123" rx="25" ry="9"    fill="url(#lk5)" transform="rotate(-11 131 123)"/>
+            <ellipse cx="118" cy="138" rx="21" ry="8"    fill="url(#lk6)" transform="rotate(-10 118 138)"/>
+          </svg>
+          <p className="hello">
+            pl<span className="caret-o"></span>r
+          </p>
         </div>
-        <button
-          className="enter-button"
-          type="button"
-          aria-label="Enter"
-          onClick={enter}
-        >
-          <span aria-hidden="true">→</span>
-        </button>
+        <div className="portal-tilt">
+          <button
+            className="portal-button"
+            type="button"
+            aria-label="Enter"
+            onClick={enter}
+          >
+            <span
+              className="portal"
+              aria-hidden="true"
+              style={{ "--enter-scale": enterScale } as CSSProperties}
+              onAnimationEnd={handlePortalAnimationEnd}
+            ></span>
+          </button>
+        </div>
         <span className="wordmark" aria-hidden="true">
           <svg viewBox="0 0 200 170" fill="none">
             <g stroke="currentColor" strokeWidth="7" strokeLinecap="round">

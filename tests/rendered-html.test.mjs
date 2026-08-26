@@ -29,7 +29,7 @@ test("server-renders the monochrome homepage gate", async () => {
 
   const html = await response.text();
   assert.match(html, /<title>plor<\/title>/i);
-  assert.match(html, />Hello</);
+  assert.match(html, />pl</);
   assert.match(html, /aria-label="Enter"/);
   assert.doesNotMatch(html, /aria-label="Coding agent task"/);
 });

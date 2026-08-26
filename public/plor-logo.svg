@@ -1,17 +1,26 @@
-<svg width="214" height="96" viewBox="0 0 214 96" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <g stroke="currentColor" stroke-width="7" stroke-linecap="round">
-    <path d="M14 18v63" />
-    <path d="M14 18a24 24 0 0 1 0 48" />
-    <path d="M74 66V13" />
-    <path d="M151.6 37.8A24 24 0 1 1 132.2 18.4" />
-    <path d="M184 18v48" />
-    <path d="M184 40l15-15" />
+<svg viewBox="0 0 600 160" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="pz1" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffffff"/><stop offset="1" stop-color="#b5b5b5"/></linearGradient>
+    <linearGradient id="pz2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#eaeaea"/><stop offset="1" stop-color="#a2a2a2"/></linearGradient>
+    <linearGradient id="pz3" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#d2d2d2"/><stop offset="1" stop-color="#8b8b8b"/></linearGradient>
+    <linearGradient id="pz4" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#b5b5b5"/><stop offset="1" stop-color="#737373"/></linearGradient>
+    <linearGradient id="pz5" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#969696"/><stop offset="1" stop-color="#5c5c5c"/></linearGradient>
+    <linearGradient id="pz6" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#7a7a7a"/><stop offset="1" stop-color="#454545"/></linearGradient>
+  </defs>
+  <g transform="translate(-12,-24)">
+    <ellipse cx="192" cy="52"  rx="44" ry="15"   fill="url(#pz1)" transform="rotate(-15 192 52)"/>
+    <ellipse cx="176" cy="72"  rx="39" ry="13.5" fill="url(#pz2)" transform="rotate(-14 176 72)"/>
+    <ellipse cx="160" cy="90"  rx="34" ry="12"   fill="url(#pz3)" transform="rotate(-13 160 90)"/>
+    <ellipse cx="145" cy="107" rx="29" ry="10.5" fill="url(#pz4)" transform="rotate(-12 145 107)"/>
+    <ellipse cx="131" cy="123" rx="25" ry="9"    fill="url(#pz5)" transform="rotate(-11 131 123)"/>
+    <ellipse cx="118" cy="138" rx="21" ry="8"    fill="url(#pz6)" transform="rotate(-10 118 138)"/>
+    <polygon fill="#ffffff" points="22,50.7 180,47.4 192,52 180,56.6 22,53.3"/>
+    <polygon fill="#ffffff" points="120,136.4 282,133.4 292,138 282,142.6 120,139.6"/>
+    <polygon fill="#ffffff" points="304,138 288,132 288,144"/>
   </g>
-  <g fill="currentColor">
-    <path d="M14 89 9.5 80h9z" />
-    <path d="M8 66 14 61.5v9z" />
-    <path d="M74 5 69.5 14h9z" />
-    <path d="M139.1 19.6 131.4 22.8 133 14z" />
-    <path d="M204 20 202.2 28.2 195.8 21.8z" />
-  </g>
+  <text x="318" y="136" font-family="ui-monospace, Menlo, monospace" font-weight="700"
+        font-size="112" letter-spacing="-4" fill="#f4f4f4">pl</text>
+  <rect x="452" y="52" width="66" height="86" rx="7" fill="#f4f4f4"/>
+  <text x="534" y="136" font-family="ui-monospace, Menlo, monospace" font-weight="700"
+        font-size="112" fill="#f4f4f4">r</text>
 </svg>
