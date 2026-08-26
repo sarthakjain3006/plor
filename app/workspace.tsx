@@ -68,10 +68,10 @@ export default function Workspace() {
     .map((messageId) => messagesById[messageId])
     .filter((message): message is Message => Boolean(message));
   const depth = layerPath.length - 1;
-  const fanWidth = Math.min(depth * 2.2, 10);
-  const fanLeft = fanWidth * .12;
-  const fanRight = fanWidth - fanLeft;
-  const fanBottom = Math.min(depth * 4, 20);
+  const fanWidth = Math.min(depth * 1.8, 8);
+  const fanRight = fanWidth * .12;
+  const fanLeft = fanWidth - fanRight;
+  const fanBottom = Math.min(depth * 3, 16);
 
   useEffect(() => {
     messagesRef.current?.scrollTo({ top: 0 });
