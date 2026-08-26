@@ -327,7 +327,7 @@ export default function Workspace() {
                     <article className={`message-row ${message.side} ${message.kind ?? "message"}`} key={message.id}>
                       <div className="message-content">
                         <div className="message-meta">
-                          <strong>{message.side === "from" ? "You" : "Codex"}</strong>
+                          <strong>{message.side === "from" ? "You" : "Plor"}</strong>
                           <span>{message.time}</span>
                         </div>
                         <button
@@ -356,11 +356,11 @@ export default function Workspace() {
               <div className="composer-area">
                 <form className="composer" onSubmit={sendMessage}>
                   <input
-                    aria-label={`Message from ${side === "from" ? "you" : "Codex"}`}
+                    aria-label={`Message from ${side === "from" ? "you" : "Plor"}`}
                     autoComplete="off"
                     data-chat-input
                     onChange={(event) => setDraft(event.target.value)}
-                    placeholder="Ask Codex to change your code"
+                    placeholder="Ask Plor to change your code"
                     value={draft}
                   />
                   <div className="composer-toolbar">
