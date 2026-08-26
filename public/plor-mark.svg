@@ -1,0 +1,14 @@
+<svg width="200" height="170" viewBox="0 0 200 170" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <g stroke="currentColor" stroke-width="7" stroke-linecap="round">
+    <path d="M76 13v145" />
+    <path d="M106.9 15.2A48 48 0 1 1 92.4 6.9" />
+    <path d="M80 92 183 144" />
+    <path d="M183 144C150 158 110 160 76 157" />
+  </g>
+  <g fill="currentColor">
+    <path d="M76 4 71.5 13h9z" />
+    <path d="M99 9.3 90.9 11.1 93.9 2.7z" />
+    <path d="M189.3 147.2 179.8 150.3 186.2 137.7z" />
+    <path d="M69 157 76 152.7v8.6z" />
+  </g>
+</svg>
