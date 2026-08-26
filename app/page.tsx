@@ -3,6 +3,7 @@
 import {
   useCallback,
   useEffect,
+  useRef,
   useState,
   type AnimationEvent,
   type CSSProperties,
@@ -13,21 +14,49 @@ import Workspace from "./workspace";
 
 type Phase = "gate" | "entering" | "inside" | "done";
 
+type PortalGeometry = {
+  x: number;
+  y: number;
+  scaleX: number;
+  scaleY: number;
+};
+
 function prefersReducedMotion() {
   return typeof window !== "undefined"
     && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 }
 
-function computeEnterScale() {
+function computePortalGeometry(portal: HTMLElement): PortalGeometry {
   const width = window.innerWidth;
   const height = window.innerHeight;
-  const portalSize = Math.max(Math.min(Math.min(width, height) * 0.72, 440), 1);
-  return Math.ceil((Math.hypot(width, height) / portalSize) * 1.05);
+  const isCompact = width <= 720;
+  const workspacePadding = isCompact ? 0 : Math.min(Math.max(width * 0.012, 10), 22);
+  const targetLeft = isCompact ? 0 : 228 + workspacePadding;
+  const targetTop = (isCompact ? 45 : 50) + workspacePadding;
+  const targetRight = width - workspacePadding;
+  const targetBottom = height - workspacePadding;
+  // Measure the unanimated button box so the idle breathing transform cannot
+  // introduce a small offset or size mismatch in the final window.
+  const portalRect = portal.parentElement?.getBoundingClientRect()
+    ?? portal.getBoundingClientRect();
+
+  return {
+    x: (targetLeft + targetRight) / 2 - (portalRect.left + portalRect.width / 2),
+    y: (targetTop + targetBottom) / 2 - (portalRect.top + portalRect.height / 2),
+    scaleX: Math.max((targetRight - targetLeft) / portalRect.width, 0.01),
+    scaleY: Math.max((targetBottom - targetTop) / portalRect.height, 0.01),
+  };
 }
 
 export default function Home() {
   const [phase, setPhase] = useState<Phase>("gate");
-  const [enterScale, setEnterScale] = useState(1);
+  const [portalGeometry, setPortalGeometry] = useState<PortalGeometry>({
+    x: 0,
+    y: 0,
+    scaleX: 1,
+    scaleY: 1,
+  });
+  const portalRef = useRef<HTMLSpanElement>(null);
 
   const enter = useCallback(() => {
     if (phase !== "gate") return;
@@ -35,7 +64,9 @@ export default function Home() {
       setPhase("done");
       return;
     }
-    setEnterScale(computeEnterScale());
+    if (portalRef.current) {
+      setPortalGeometry(computePortalGeometry(portalRef.current));
+    }
     setPhase("entering");
   }, [phase]);
 
@@ -84,8 +115,12 @@ export default function Home() {
 
   return (
     <>
-      {phase === "inside" && (
-        <div className="workspace-reveal">
+      {phase !== "gate" && (
+        <div
+          className="workspace-stage"
+          aria-hidden={phase === "entering"}
+          inert={phase === "entering"}
+        >
           <Workspace />
         </div>
       )}
@@ -130,7 +165,13 @@ export default function Home() {
             <span
               className="portal"
               aria-hidden="true"
-              style={{ "--enter-scale": enterScale } as CSSProperties}
+              ref={portalRef}
+              style={{
+                "--portal-x": `${portalGeometry.x}px`,
+                "--portal-y": `${portalGeometry.y}px`,
+                "--portal-scale-x": portalGeometry.scaleX,
+                "--portal-scale-y": portalGeometry.scaleY,
+              } as CSSProperties}
               onAnimationEnd={handlePortalAnimationEnd}
             ></span>
           </button>

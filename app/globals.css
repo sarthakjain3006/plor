@@ -59,7 +59,7 @@ button { -webkit-tap-highlight-color: transparent; }
   content: "";
   position: absolute;
   inset: 0;
-  border-radius: 50%;
+  border-radius: inherit;
   box-shadow:
     0 0 0 1px rgba(255, 255, 255, 0.14),
     0 40px 96px rgba(0, 0, 0, 0.42),
@@ -130,42 +130,22 @@ button { -webkit-tap-highlight-color: transparent; }
   user-select: none;
 }
 .gate.entering .portal {
-  animation: enter-portal 1.05s cubic-bezier(0.22, 0.8, 0.18, 1) forwards;
+  animation: enter-portal .9s .16s cubic-bezier(0.22, 0.8, 0.18, 1) forwards;
 }
-.gate.entering .hello {
-  animation: enter-fade 0.28s ease forwards;
-}
+.gate.entering .lockup { animation: enter-fade .13s ease forwards; }
 .gate.entering .portal-button {
-  animation: enter-fade 0.2s ease forwards;
   pointer-events: none;
 }
 .gate.entering .wordmark {
-  animation: enter-fade 0.28s ease forwards;
+  animation: enter-fade .13s ease forwards;
 }
 .gate.leaving {
-  animation: gate-dissolve 0.4s ease-in forwards;
+  animation: gate-dissolve .34s ease-in forwards;
   pointer-events: none;
 }
-.workspace-reveal {
-  animation: workspace-aperture 0.9s cubic-bezier(0.16, 1, 0.3, 1) both;
-}
+.workspace-stage { position: fixed; z-index: 0; inset: 0; }
 @keyframes gate-dissolve {
   to { opacity: 0; }
-}
-@keyframes workspace-aperture {
-  from {
-    clip-path: circle(0% at 50% 46%);
-    opacity: 0.55;
-    transform: scale(1.02);
-    filter: blur(10px);
-  }
-  60% { opacity: 1; }
-  to {
-    clip-path: circle(120% at 50% 46%);
-    opacity: 1;
-    transform: scale(1);
-    filter: blur(0);
-  }
 }
 @keyframes portal-breathe {
   0%, 100% { transform: translateY(0) scale(1); }
@@ -176,8 +156,17 @@ button { -webkit-tap-highlight-color: transparent; }
   50% { opacity: 1; }
 }
 @keyframes enter-portal {
-  0% { transform: scale(1); }
-  100% { transform: scale(var(--enter-scale, 18)); }
+  0% {
+    border-radius: 50%;
+    transform: translate(0, 0) scale(1);
+  }
+  38% { border-radius: 38%; }
+  100% {
+    border-radius: 1.1%;
+    background: #181918;
+    box-shadow: 0 14px 38px rgba(0,0,0,.26), 0 0 0 1px #343633;
+    transform: translate(var(--portal-x, 0), var(--portal-y, 0)) scale(var(--portal-scale-x, 1), var(--portal-scale-y, 1));
+  }
 }
 @keyframes enter-fade {
   to { opacity: 0; }
@@ -185,14 +174,12 @@ button { -webkit-tap-highlight-color: transparent; }
 
 .app-shell { height: 100svh; display: grid; grid-template-rows: 50px minmax(0, 1fr); overflow: hidden; background: var(--workspace-bg); }
 .app-bar { position: relative; z-index: 20; display: flex; align-items: center; gap: 10px; padding: 0 16px; border-bottom: 1px solid #2d2e2c; background: #181918; font-size: 13px; }
-.brand-mark { width: 27px; height: 27px; display: grid; place-items: center; border: 1px solid #464844; border-radius: 6px; background: #292a28; color: #fff; box-shadow: inset 0 1px rgba(255,255,255,.05); }
-.brand-mark svg { width: 16px; height: 16px; }
-.app-bar > strong { font-size: 13px; font-weight: 650; }
+.brand-mark { width: 32px; height: 30px; display: grid; place-items: center; flex: 0 0 auto; margin-right: -5px; }
+.brand-mark svg { width: 31px; height: 26px; overflow: visible; }
+.brand-wordmark { font: 700 13px/1 var(--font-geist-mono), ui-monospace, Menlo, monospace; letter-spacing: .025em; }
+.brand-o { display: inline-block; width: .52em; height: .8em; margin: 0 .05em; border-radius: .06em .06em .12em .12em; background: currentColor; }
 .sidebar-toggle { display: none; width: 30px; height: 30px; border: 0; border-radius: 5px; background: transparent; color: #b6b8b2; cursor: pointer; font-size: 16px; }
 .sidebar-toggle:hover { background: #292a28; color: white; }
-.app-divider { width: 1px; height: 18px; margin: 0 2px; background: #373936; }
-.project-name { color: #bbbcb7; font-size: 12px; font-weight: 550; }
-.branch-pill { display: inline-flex; align-items: center; gap: 4px; height: 24px; padding: 0 8px; border: 1px solid #393b37; border-radius: 5px; background: #20211f; color: #969892; font: 10px var(--font-geist-mono), monospace; }
 .workspace { min-height: 0; display: grid; grid-template-columns: 228px minmax(0,1fr); }
 .chat-sidebar { min-width: 0; min-height: 0; display: flex; flex-direction: column; border-right: 1px solid #2d2f2c; background: #181918; }
 .sidebar-header { min-height: 58px; display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 0 11px 0 15px; border-bottom: 1px solid #2d2f2c; }
@@ -207,8 +194,8 @@ button { -webkit-tap-highlight-color: transparent; }
 .chat-sidebar nav span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 10px; font-weight: 550; }
 .chat-sidebar nav small { color: #696b65; font-size: 8px; }
 .sidebar-scrim { display: none; }
-.agent-workspace { height: 100%; min-width: 0; min-height: 0; display: grid; padding: 14px clamp(14px, 3.5vw, 54px); overflow: hidden; }
-.chat-stack { --stack-left: 0%; --stack-right: 0%; --stack-bottom: 0px; position: relative; width: min(100%, 1320px); min-width: 0; min-height: 0; margin: 0 auto; isolation: isolate; }
+.agent-workspace { height: 100%; min-width: 0; min-height: 0; display: grid; padding: clamp(10px, 1.2vw, 22px); overflow: hidden; }
+.chat-stack { --stack-left: 0%; --stack-right: 0%; --stack-bottom: 0px; position: relative; width: 100%; min-width: 0; min-height: 0; isolation: isolate; }
 .paper-layer { --page-left: 0%; --page-right: 0%; --page-bottom: 0px; position: absolute; inset: 0 var(--page-right) var(--page-bottom) var(--page-left); z-index: 0; overflow: hidden; border: 1px solid #4b4d48; border-radius: 7px 18px 18px 7px; background: #262725; box-shadow: 4px 3px 12px rgba(0,0,0,.32); }
 .paper-layer:nth-child(even) { background: #20211f; }
 .paper-layer::before { content: ""; position: absolute; top: 7px; right: 3px; bottom: 7px; width: 5px; border-right: 1px solid #686a63; border-radius: 50%; box-shadow: 2px 0 rgba(255,255,255,.04); }
@@ -322,7 +309,6 @@ button { -webkit-tap-highlight-color: transparent; }
   .app-shell { grid-template-rows: 45px minmax(0,1fr); }
   .app-bar { padding: 0 11px; }
   .sidebar-toggle { display: grid; place-items: center; }
-  .app-divider, .project-name, .branch-pill { display: none; }
   .workspace { display: block; position: relative; }
   .chat-sidebar { position: fixed; z-index: 36; left: 0; top: 45px; bottom: 0; width: min(82vw, 280px); transform: translateX(-100%); border-right-color: #3a3c38; box-shadow: 12px 0 30px rgba(0,0,0,.32); transition: transform .2s ease; }
   .chat-sidebar.open { transform: translateX(0); }

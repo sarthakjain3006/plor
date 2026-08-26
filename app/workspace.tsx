@@ -203,25 +203,27 @@ export default function Workspace() {
           onClick={() => setShowSidebar(true)}
           type="button"
         >☰</button>
-        <div className="brand-mark" aria-hidden="true">
-          <svg viewBox="0 0 200 170" fill="none">
-            <g stroke="currentColor" strokeWidth="9" strokeLinecap="round">
-              <path d="M76 16v140" />
-              <path d="M105.5 18A48 48 0 1 1 93 8" />
-              <path d="M81 93 181 143.5" />
-              <path d="M181 143.5C150 157 112 159 78 156" />
-            </g>
-            <g fill="currentColor">
-              <path d="M76 6 71.2 16h9.6z" />
-              <path d="M98.5 11 90.5 12.6 94 4.5z" />
-              <path d="M187 146 177.5 148.5 183.5 136z" />
-            </g>
+        <span className="brand-mark" aria-hidden="true">
+          <svg viewBox="92 30 148 122" fill="none">
+            <defs>
+              <linearGradient id="wk1" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stopColor="#ffffff"/><stop offset="1" stopColor="#b5b5b5"/></linearGradient>
+              <linearGradient id="wk2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stopColor="#eaeaea"/><stop offset="1" stopColor="#a2a2a2"/></linearGradient>
+              <linearGradient id="wk3" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stopColor="#d2d2d2"/><stop offset="1" stopColor="#8b8b8b"/></linearGradient>
+              <linearGradient id="wk4" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stopColor="#b5b5b5"/><stop offset="1" stopColor="#737373"/></linearGradient>
+              <linearGradient id="wk5" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stopColor="#969696"/><stop offset="1" stopColor="#5c5c5c"/></linearGradient>
+              <linearGradient id="wk6" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stopColor="#7a7a7a"/><stop offset="1" stopColor="#454545"/></linearGradient>
+            </defs>
+            <ellipse cx="192" cy="52" rx="44" ry="15" fill="url(#wk1)" transform="rotate(-15 192 52)"/>
+            <ellipse cx="176" cy="72" rx="39" ry="13.5" fill="url(#wk2)" transform="rotate(-14 176 72)"/>
+            <ellipse cx="160" cy="90" rx="34" ry="12" fill="url(#wk3)" transform="rotate(-13 160 90)"/>
+            <ellipse cx="145" cy="107" rx="29" ry="10.5" fill="url(#wk4)" transform="rotate(-12 145 107)"/>
+            <ellipse cx="131" cy="123" rx="25" ry="9" fill="url(#wk5)" transform="rotate(-11 131 123)"/>
+            <ellipse cx="118" cy="138" rx="21" ry="8" fill="url(#wk6)" transform="rotate(-10 118 138)"/>
           </svg>
-        </div>
-        <strong>Codex</strong>
-        <span className="app-divider" />
-        <span className="project-name">plor</span>
-        <span className="branch-pill"><span aria-hidden="true">⌁</span> main</span>
+        </span>
+        <strong className="brand-wordmark">
+          pl<span className="brand-o" aria-label="o" />r
+        </strong>
       </header>
 
       <div className="workspace">
