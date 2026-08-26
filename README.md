@@ -1,8 +1,8 @@
 # vinext-starter
 
-A clean full-stack starter running on
-[vinext](https://github.com/cloudflare/vinext), with optional Cloudflare D1 and
-Drizzle support.
+A clean full-stack app running on [vinext](https://github.com/cloudflare/vinext),
+with Cloudflare infrastructure managed as Effect programs through
+[Alchemy](https://alchemy.run).
 
 ## Prerequisites
 
@@ -16,13 +16,43 @@ npm run dev
 npm run build
 ```
 
-This starter does not use `wrangler.jsonc`.
+`npm run dev` starts Alchemy's local Cloudflare environment, including the D1,
+Images, and Assets bindings. This project does not use `wrangler.jsonc`.
+
+## Cloudflare Infrastructure
+
+Infrastructure is declared in `alchemy.run.ts`. The stack provisions a D1
+database, binds Cloudflare Images, builds the vinext RSC/SSR environments, and
+deploys the custom Worker entry with static assets.
+
+Authenticate once with an Alchemy profile:
+
+```bash
+npx alchemy login
+```
+
+Then preview changes before applying them:
+
+```bash
+npm run infra:plan
+npm run infra:deploy
+```
+
+Alchemy stores stack state in its Cloudflare state worker. The first command
+that needs remote state may ask permission to bootstrap that worker. No
+infrastructure is created by installing or building this repository.
+
+To remove a stage's managed resources, review the target stage and run:
+
+```bash
+npm run infra:destroy
+```
 
 ## Included Shape
 
 - edit site code under `app/`
-- `.openai/hosting.json` declares optional Sites D1 and R2 bindings
-- `vite.config.ts` simulates declared bindings for local development
+- `alchemy.run.ts` declares the Cloudflare Worker, D1, Images, and assets
+- `vite.config.ts` guards the standalone Cloudflare plugin when Alchemy injects its managed instance
 - `db/schema.ts` starts intentionally empty
 - `examples/d1/` contains an optional D1 example surface
 - `drizzle.config.ts` supports local migration generation when needed
@@ -91,6 +121,9 @@ actions tied to the current ChatGPT user. Leave public content anonymous.
 - `npm run build`: verify the vinext build output
 - `npm test`: build the starter and verify its rendered loading skeleton
 - `npm run db:generate`: generate Drizzle migrations after schema changes
+- `npm run infra:plan`: preview Cloudflare infrastructure changes
+- `npm run infra:deploy`: apply the reviewed plan
+- `npm run infra:destroy`: remove the selected stage's managed resources
 
 ## Learn More
 
