@@ -198,6 +198,8 @@ export default function Workspace() {
     <main className="app-shell">
       <header className="app-bar">
         <button
+          aria-controls="chat-sidebar"
+          aria-expanded={showSidebar}
           className="sidebar-toggle"
           aria-label="Open chats"
           onClick={() => setShowSidebar(true)}
@@ -227,7 +229,12 @@ export default function Workspace() {
       </header>
 
       <div className="workspace">
-        <aside className={`chat-sidebar ${showSidebar ? "open" : ""}`} aria-label="Chats">
+        <aside
+          className={`chat-sidebar ${showSidebar ? "open" : ""}`}
+          aria-label="Chats — hover or focus to expand"
+          id="chat-sidebar"
+          tabIndex={0}
+        >
           <div className="sidebar-header">
             <strong>Chats</strong>
             <button onClick={createChat} type="button"><span aria-hidden="true">＋</span> New chat</button>
