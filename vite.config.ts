@@ -40,20 +40,29 @@ export default defineConfig(async () => {
   process.env.WRANGLER_LOG_PATH ??= ".wrangler/logs";
   process.env.MINIFLARE_REGISTRY_PATH ??= ".wrangler/registry";
 
-  // Wrangler snapshots its log path while the Cloudflare plugin is imported.
-  const { cloudflare } = await import("@cloudflare/vite-plugin");
+  // Alchemy injects a resource-aware Cloudflare plugin for managed runs.
+  // Standalone vinext builds still need their own plugin instance.
+  const isAlchemyCloudflareRun =
+    process.env.ALCHEMY_CLOUDFLARE_VITE_INJECTED === "1";
+  const cloudflarePlugin =
+    isAlchemyCloudflareRun
+      ? null
+      : (await import("@cloudflare/vite-plugin")).cloudflare({
+          viteEnvironment: { name: "rsc", childEnvironments: ["ssr"] },
+          config: localBindingConfig,
+        });
+
+  // vinext currently detects only the official `vite-plugin-cloudflare` name.
+  // Alchemy's compatible fork uses `distilled-cloudflare:*`, so expose a
+  // no-op marker to keep vinext from externalizing React into host file URLs.
+  const alchemyCloudflareMarker = isAlchemyCloudflareRun
+    ? { name: "vite-plugin-cloudflare" }
+    : null;
 
   return {
     server: isPlorSeatbeltSandbox
       ? { watch: { useFsEvents: false, usePolling: true } }
       : undefined,
-    plugins: [
-      vinext(),
-      sites(),
-      cloudflare({
-        viteEnvironment: { name: "rsc", childEnvironments: ["ssr"] },
-        config: localBindingConfig,
-      }),
-    ],
+    plugins: [vinext(), sites(), cloudflarePlugin, alchemyCloudflareMarker],
   };
 });

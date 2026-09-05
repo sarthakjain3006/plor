@@ -76,10 +76,10 @@ export default function Workspace() {
     ),
   ].join(" ");
   const depth = layerPath.length - 1;
-  const fanWidth = Math.min(depth * 2.2, 10);
-  const fanLeft = fanWidth * .12;
-  const fanRight = fanWidth - fanLeft;
-  const fanBottom = Math.min(depth * 4, 20);
+  const fanWidth = Math.min(depth * 1.8, 8);
+  const fanRight = fanWidth * .12;
+  const fanLeft = fanWidth - fanRight;
+  const fanBottom = Math.min(depth * 3, 16);
 
   useEffect(() => {
     messagesRef.current?.scrollTo({ top: 0 });
@@ -206,6 +206,8 @@ export default function Workspace() {
     <main className="app-shell">
       <header className="app-bar">
         <button
+          aria-controls="chat-sidebar"
+          aria-expanded={showSidebar}
           className="sidebar-toggle"
           aria-label="Open chats"
           onClick={() => setShowSidebar(true)}
@@ -235,7 +237,12 @@ export default function Workspace() {
       </header>
 
       <div className="workspace">
-        <aside className={`chat-sidebar ${showSidebar ? "open" : ""}`} aria-label="Chats">
+        <aside
+          className={`chat-sidebar ${showSidebar ? "open" : ""}`}
+          aria-label="Chats — hover or focus to expand"
+          id="chat-sidebar"
+          tabIndex={0}
+        >
           <div className="sidebar-header">
             <strong>Chats</strong>
             <button onClick={createChat} type="button"><span aria-hidden="true">＋</span> New chat</button>
